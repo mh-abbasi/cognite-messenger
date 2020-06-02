@@ -1,0 +1,48 @@
+.container {
+    display: flex;
+    margin-bottom: 15px;
+    align-items: center;
+}
+
+.bubble {
+    border-radius: 15px;
+    background-color: #AAB5B7;
+    padding: 10px 10px;
+    position: relative;
+}
+
+.bubble.to {
+    margin-left: 0;
+    background-color: #7DCAC7;
+}
+
+.bubble::after {
+    content: "";
+    position: absolute;
+    left: 1px;
+    bottom: 1px;
+    width: 0;
+    height: 0;
+    border-bottom: 10px solid #AAB5B7;
+    border-right: 10px solid transparent;
+}
+
+.bubble.to::after {
+    left: auto;
+    right: 1px;
+    bottom: 1px;
+    border-right: unset;
+    border-bottom-color: #7DCAC7;
+    border-left: 10px solid transparent;
+}
+
+.time {
+    margin-left: 5px;
+    color: #949494;
+}
+
+.bubble.to + .time {
+    margin-left: auto;
+    margin-right: 5px;
+    order: -1;
+}

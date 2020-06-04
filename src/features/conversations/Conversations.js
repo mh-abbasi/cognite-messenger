@@ -20,7 +20,16 @@ const Conversations = () => {
     const {id: userId} = useSelector(userSelector)
     const [selectedConversation, setSelectedConversation] = useState(null)
     const [conversationIndex, setConversationIndex] = useState(-1)
+    const [message, setMessage] = useState('')
+    const [draftMessages, setDraftMessages] = useState({})
 
+    const onDraft = (conversationId) => {
+        let drafts = draftMessages
+        if( message.length ) {
+            drafts[conversationId] = message
+            setDraftMessages(drafts)
+        }
+    }
     /**
      * Main component for chat UI// Get the conversations list after loading the store
      */
@@ -48,11 +57,13 @@ const Conversations = () => {
             from: !isSneaky ? userId : conversations[conversationIndex]['users'].find(user => user.id !== userId).id,
         }
         dispatch(addMessageAsync(payload))
+
     }
 
     return (
         <div className={styles.container}>
             <ConversationsList
+                onDraft={onDraft}
                 isLoading={isLoading}
                 selectedConversation={selectedConversation}
                 conversations={conversations}
@@ -66,7 +77,12 @@ const Conversations = () => {
                     conversationUserId={conversationIndex > -1 ? conversations[conversationIndex]['users'].find(user => user.id !== userId).id : undefined}
                 />
                 {conversationIndex > -1 && (
-                    <MessageBox onSubmit={onSubmit}/>
+                    <MessageBox
+                        onSubmit={onSubmit}
+                        message={message}
+                        draftMessage={draftMessages[selectedConversation] ? draftMessages[selectedConversation] : ''}
+                        setMessage={setMessage}
+                        conversationId={selectedConversation} />
                 )}
             </div>
 

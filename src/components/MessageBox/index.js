@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import styles from './MessageBox.module.css'
 
 /**
@@ -7,8 +7,10 @@ import styles from './MessageBox.module.css'
  * @returns {*}
  * @constructor
  */
-const MessageBox = ({onSubmit}) => {
-    const [message, setMessage] = useState('')
+const MessageBox = ({onSubmit, message, setMessage, draftMessage, conversationId}) => {
+    useEffect(()=>{
+        setMessage(draftMessage)
+    },[conversationId])
     /**
      * Handle input changes
      * @param event

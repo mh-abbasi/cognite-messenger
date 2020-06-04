@@ -8,11 +8,16 @@ import ConversationItem from "../ConversationItem";
  * @param {array} conversations : all the conversations in store coming from parent
  * @param {string} selectedConversation : ID of the selected conversation
  * @param {function} onSelectConversation : function handler to switch between conversations
+ * @param {function} onDraft : function handler to store the draft message before switching between conversations
  * @param {string|number} userId : current user id from store
  * @returns {*}
  * @constructor
  */
-const ConversationsList = ({isLoading, conversations, selectedConversation, onSelectConversation, userId}) => {
+const ConversationsList = ({isLoading, onDraft, conversations, selectedConversation, onSelectConversation, userId}) => {
+    const handleClick = (conversationId) => {
+        onDraft(selectedConversation)
+        onSelectConversation(conversationId)
+    }
     return (
         <div className={styles.container}>
             {isLoading
@@ -23,7 +28,7 @@ const ConversationsList = ({isLoading, conversations, selectedConversation, onSe
                         return <ConversationItem
                             conversation={conversation}
                             active={conversation.id === selectedConversation}
-                            onClick={() => onSelectConversation(conversation.id)}
+                            onClick={(ev)=>handleClick(conversation.id)}
                             key={conversation.id}
                             userId={userId}
                             />
